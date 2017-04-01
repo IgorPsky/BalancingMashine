@@ -5,7 +5,7 @@ public class BalancingMachine {
 	private double length;
 	private double weight;
 	private long currentTime;
-	private double rSpeed = Math.PI*2/100;  // rads/sec
+	private double rSpeed = Math.PI*2/10;  // rads/sec
 	private boolean isRunning = false;
 	
 	public BalancingMachine(double angle, double length, double weight) {
