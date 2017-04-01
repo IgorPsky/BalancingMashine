@@ -4,8 +4,9 @@ public class BalancingMachine {
 	private double angle;
 	private double length;
 	private double weight;
-	private double currentTime;
-	private double rSpeed;
+	private long currentTime;
+	private double rSpeed = Math.PI*2/100;  // rads/sec
+	private boolean isRunning = false;
 	
 	public BalancingMachine(double angle, double length, double weight) {
 		super();
@@ -27,25 +28,37 @@ public class BalancingMachine {
 	}
 	
 	private void step(long timeDelta) {
-		angle += timeDeltaToSecs(timeDelta);
+		angle += timeDeltaToSecs(timeDelta)*rSpeed;
+		if (angle >= Math.PI * 2) {
+			angle = angle - Math.PI * 2;
+		}
 	}
 	
 	private class executor implements Runnable {
 
 		@Override
 		public void run() {
-			currentTime = getTime();
-			
-		}
-		
+			long stepTime;
+			long timeDelta;
+			isRunning = true;
+			while (isRunning) {
+				stepTime = getTime();
+				timeDelta = stepTime - currentTime;
+				step(timeDelta);
+			    currentTime = getTime();
+			}
+		}	
 	}
 	
+	private Thread t;
+	private executor exec;
+	
 	public void Start() {
-		
+		t = new Thread (new executor());
+		t.start();		
 	}
 	
 	public void Stop() {
-		
+		isRunning = false;
 	}
-
 }
