@@ -28,8 +28,16 @@ public class BalancingMachine {
 		return timeDelta/1e+9;
 	}
 	
+	public double wMoment() {
+		return weight/100.0*9.81*length/2.0;
+	}
+	
 	private void step(long timeDelta) {
 		// rSpeed = rSpeed;
+		double mForce = weight/100.0*9.81*Math.sin(angle);
+		double rMoment = mForce * length;
+		double rAcc = rMoment / wMoment();
+		rSpeed = rSpeed + Math.pow(timeDeltaToSecs(timeDelta), 2);
 		angle += timeDeltaToSecs(timeDelta)*rSpeed;
 		if (angle >= Math.PI * 2) {
 			angle = angle - Math.PI * 2;
