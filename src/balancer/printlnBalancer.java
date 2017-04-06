@@ -25,6 +25,7 @@ public class printlnBalancer {
 			m.Start();
 			for(int i=1; i<300; i++) {
 	        	Thread.sleep(100);
+	        	Thread.yield();
 	        	System.out.println(Long.toString(m.runningSeconds()) + "sec:" + getLine(m.getAngle()));
 	        }
 	        m.Stop();

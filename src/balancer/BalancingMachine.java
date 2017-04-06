@@ -37,10 +37,15 @@ public class BalancingMachine {
 		double mForce = weight/100.0*9.81*Math.sin(angle);
 		double rMoment = mForce * length;
 		double rAcc = rMoment / wMoment();
-		rSpeed = rSpeed + Math.pow(timeDeltaToSecs(timeDelta), 2);
+		// rSpeed = rSpeed + rAcc * Math.pow(timeDeltaToSecs(timeDelta), 2);
 		angle += timeDeltaToSecs(timeDelta)*rSpeed;
-		if (angle >= Math.PI * 2) {
+		while (angle >= Math.PI * 2) {
 			angle = angle - Math.PI * 2;
+			Thread.yield();
+		}
+		Thread.yield();
+		if (runningSeconds()>60*3) { // timeout
+		   isRunning = false;
 		}
 	}
 	
